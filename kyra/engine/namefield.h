@@ -30,6 +30,7 @@
 #endif
 
 #include <string>
+#include <SDL2/SDL_rwops.h>
 
 #include "../../grinliz/gltypes.h"
 #include "../util/gllist.h"

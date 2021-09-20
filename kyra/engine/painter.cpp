@@ -559,7 +559,7 @@ KrPaintInfo::KrPaintInfo( SDL_Surface* screen )
 
 	surface = screen;
 	needToFreeSurface	= false;
-	openGL				= ( screen->flags & SDL_OPENGL ) != 0;
+	openGL				= false; // TODO: CNC ( screen->flags & SDL_OPENGL ) != 0;
 	InitCopies();
 
 	if ( bytesPerPixel == 4 )

@@ -35,8 +35,8 @@
 
 #define RLE_WRITE
 
-#include "SDL.h"
-#include "SDL_rwops.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_rwops.h>
 
 #include "../../grinliz/glutil.h"
 #include "../util/gllist.h"

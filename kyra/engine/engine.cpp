@@ -162,7 +162,7 @@ void KrEngine::Restart( SDL_Surface* _screen,
 	if ( paintInfo.openGL )
 		InitOpenGL();
 
-	SDL_EnableUNICODE( true );
+	//TODO: CNC SDL_EnableUNICODE( true );
 }
 
 
@@ -296,7 +296,7 @@ void KrEngine::UpdateScreen( std::vector< Rectangle2I >* rectArray )
 {
 	if ( paintInfo.openGL )
 	{
-		SDL_GL_SwapBuffers();
+	// TODO: CNC	SDL_GL_SwapBuffers();
 	}
 	else
 	{
@@ -330,7 +330,7 @@ void KrEngine::UpdateScreen( std::vector< Rectangle2I >* rectArray )
 		}
 
 //		GLOUTPUT( "Updating %d rects\n", rectArray->Count() );
-		SDL_UpdateRects(screen, rectArray->size(), &sdlRects[0] );
+		// TODO: CNC - SDL_UpdateRects(screen, rectArray->size(), &sdlRects[0] );
 	}
 }
 
@@ -496,7 +496,8 @@ void KrEngine::QueryRenderDesc( std::string* desc )
 	sprintf( buf, "v%d.%d.%d %dbbp Fullscreen=%d %s ",
 					KyraVersionMajor, KyraVersionMinor, KyraVersionBuild,
 					screen->format->BitsPerPixel,
-					( screen->flags & SDL_FULLSCREEN ) ? 1 : 0,
+					//TODO: CNC - ( screen->flags & SDL_FULLSCREEN ) ? 1 : 0,
+					1, // TODO: CNC ,
 					#ifdef WIN32
 						"Win32"
 					#elif defined ( linux )
