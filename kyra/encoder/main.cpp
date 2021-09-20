@@ -38,7 +38,7 @@
 #pragma warning( disable : 4786 )
 #endif
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include "SDL_image.h"
 #include "../engine/kyra.h"
 #include "../gui/console.h"
@@ -82,10 +82,11 @@ int main( int argc, char* argv[] )
 {
 	int i = 0;
 
-	const SDL_version* sdlVersion = SDL_Linked_Version();
-	if ( sdlVersion->minor < 2 )
+	SDL_version sdlVersion;
+	SDL_GetVersion(&sdlVersion);
+	if (sdlVersion.major < 2 )
 	{
-		fprintf( stderr, "SDL version must be at least 1.2.0" );
+		fprintf( stderr, "SDL version must be at least 2.0" );
 		GLASSERT( 0 );
 		exit( 254 );
 	}
