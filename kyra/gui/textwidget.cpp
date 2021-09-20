@@ -146,6 +146,7 @@ void KrTextWidget::AddedtoTree()
 
 bool KrTextWidget::KeyEvent( const SDL_Event &event )
 {
+	/* TODO: CNC
 	if (	Engine() 
 		 && event.type == SDL_KEYDOWN )
 	{
@@ -228,6 +229,7 @@ bool KrTextWidget::KeyEvent( const SDL_Event &event )
 		PositionCursor();
 		return true;			// Almost all keys are handled.
 	}
+	*/
 	return false;
 }
 

@@ -44,7 +44,7 @@ KrEventManager::KrEventManager()
 	keyFocus = 0;
 	mouseFocus = 0;
 	mouseDown  = false;
-	SDL_EnableUNICODE( true );	// Force this! Too many bugs that it's not on.
+	// TODO: CNC SDL_EnableUNICODE( true );	// Force this! Too many bugs that it's not on.
 }
 
 KrEventManager::~KrEventManager()
