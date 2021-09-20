@@ -148,7 +148,7 @@ class KrEncoder
 														GLASSERT( numRGBA >= numSegment );
 //														GLASSERT( numSegment >= numLine );
 													 }
-	void KrEncoder::Save();
+	void Save();
 
 	KrResourceVault* GetVault()						{ return &vault; }
 
