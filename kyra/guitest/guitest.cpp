@@ -29,11 +29,11 @@
 	The full text of the license can be found in lgpl.txt
 */
 
+#include <stdlib.h>
+#include <SDL2/SDL.h>
 #include "../engine/kyra.h"
-#include "SDL.h"
 #include "../spriteed/CONSOLEFONT.h"
 #include "../guiExtended/KrImageListBox.h" 
-#include <stdlib.h>
 
 /*	This simple program demonstrates the use of all the default widgets.
 	It should be build as part of your Kyra build.
@@ -96,19 +96,19 @@ class MyConsole : public KrConsole
 		switch ( event.type )
 		{
 			case KrWidgetEvent::ACTIVATED:
-				sprintf( buf, "ACTIVATED %s source=0x%x\n", source->WidgetType(), (unsigned)source );
+				sprintf( buf, "ACTIVATED %s source=0x%p\n", source->WidgetType(), source );
 				break;
 
 			case KrWidgetEvent::DEACTIVATED:
-				sprintf( buf, "DEACTIVATED %s source=0x%x\n", source->WidgetType(), (unsigned)source );
+				sprintf( buf, "DEACTIVATED %s source=0x%p\n", source->WidgetType(), source );
 				break;
 
 			case KrWidgetEvent::COMMAND:
-				sprintf( buf, "COMMAND %s source=0x%x command=%s arg=%s\n", source->WidgetType(), (unsigned)source, event.command.command, event.command.arg );
+				sprintf( buf, "COMMAND %s source=0x%p command=%s arg=%s\n", source->WidgetType(), source, event.command.command, event.command.arg );
 				break;
 
 			case KrWidgetEvent::SELECTION:
-				sprintf( buf, "SELECTION %s source=0x%x id=%d text=%s\n", source->WidgetType(), (unsigned)source, event.selection.index, event.selection.text ? event.selection.text : "(null)" );
+				sprintf( buf, "SELECTION %s source=0x%p id=%d text=%s\n", source->WidgetType(), source, event.selection.index, event.selection.text ? event.selection.text : "(null)" );
 				break;
 				
 			default:
@@ -126,12 +126,12 @@ const int TIMER_INTERVAL = 60;
 
 /*	A timer callback, used to test widgets on a timer.
 */
-Uint32 TimerCallback(Uint32 interval)
+Uint32 TimerCallback(Uint32 interval, void *param)
 {
 	SDL_Event event;
 	event.type = SDL_TIMER_EVENT;
 
-	SDL_PeepEvents( &event, 1, SDL_ADDEVENT, 0 );
+	SDL_PeepEvents( &event, 1, SDL_ADDEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT );
 	return TIMER_INTERVAL;
 }
 
@@ -385,10 +385,11 @@ class GUI : public IKrWidgetListener
 */
 int main( int argc, char *argv[] )
 {
-	const SDL_version* sdlVersion = SDL_Linked_Version();
-	if ( sdlVersion->minor < 2 )
+	SDL_version sdlVersion;
+	SDL_GetVersion(&sdlVersion);
+	if ( sdlVersion.major < 2 )
 	{
-		printf( "SDL version must be at least 1.2.0\n" );
+		printf( "SDL version must be at least 2.0\n" );
 		GLASSERT( 0 );
 		exit( 254 );
 	}
@@ -399,13 +400,14 @@ int main( int argc, char *argv[] )
 		exit(255);
 	}
 
-	SDL_WM_SetCaption( "Kyra GuiTest", 0 );
 
 	int screenX = 800;
 	int screenY = 600;
 
-	SDL_Surface* screen = SDL_SetVideoMode( screenX, screenY, 32, SDL_SWSURFACE );
-	SDL_EnableUNICODE( true );
+	SDL_Window *window = SDL_CreateWindow("Kyra GuiTest", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+	SDL_Surface *screen = SDL_CreateRGBSurface(0, 640, 480, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	//TODO: CNC SDL_EnableUNICODE( true );
 
 	/*	The 'if (screen)' is a little strange. But some Kyra classes are created
 		inside the 'if' case, and it's a way to make sure their destructors are
@@ -433,13 +435,13 @@ int main( int argc, char *argv[] )
 		engine->Draw();
 
 		SDL_Event event;
-		SDL_SetTimer( TIMER_INTERVAL, TimerCallback );
+		SDL_AddTimer( TIMER_INTERVAL, TimerCallback, NULL );
 
 		while ( SDL_WaitEvent( &event ) )
 		{
 			if ( event.type == SDL_QUIT )
 			{
-				SDL_SetTimer( 0, 0 );
+				//TODO: CNC SDL_SetTimer( 0, 0 );
 				break;
 			}
 
