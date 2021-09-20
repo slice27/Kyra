@@ -12,7 +12,7 @@ include ../makefilebuild
 
 DEBUG_LDFLAGS    := ${DEBUG_LDFLAGS} -shared
 RELEASE_LDFLAGS  := ${RELEASE_LDFLAGS} -shared
-LIBS :=
+LIBS := SDL2
 
 #****************************************************************************
 # Targets of the build
